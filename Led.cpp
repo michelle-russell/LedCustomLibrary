@@ -5,23 +5,6 @@
 // Led class
 ////////////////////////////////////////////////////////////////////////////////////
 
-// Constructor
-// Purpose:
-//    -Constructs object of the Led class
-Led::Led(){
-  _pin = 0;
-}
-
-// Constructor
-// Purpose:
-//    -Constructs object of the Led class
-//
-// Inputs:
-//    -pinNo: pin number
-Led::Led(uint8_t pinNo){
-  _pin = pinNo;
-}
-
 // init()
 // Purpose:
 //    -Initializes Led object. Sets pin mode to output. Must be called in setup()
@@ -123,6 +106,7 @@ void LedBlink::off(){
 // Purpose:
 //    -Updates state of Led based on previously set period_ms
 void LedBlink::update(){
+
   uint32_t _currentMillis = millis();
 
   if (_onFlg == 1 && (_currentMillis - _previousMillis >= _period_ms/2)) {

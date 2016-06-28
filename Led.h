@@ -7,8 +7,7 @@
 class Led {
   //Constructors
   public:
-    Led();
-    Led(uint8_t pinNo);
+    Led(uint8_t pinNo = 0) : _pin(pinNo) {}
 
     void init();
     void on();
@@ -19,14 +18,11 @@ class Led {
     uint8_t _pin;
 };
 
-class LedPwm : Led {
+class LedPwm : public Led {
   public:
-    LedPwm():Led(){
-      _pwmVal = 0;
-    };
-    LedPwm(uint8_t pinNo, uint8_t pwmVal):Led(pinNo){
-      _pwmVal = pwmVal;
-    };
+
+    LedPwm(uint8_t pinNo = 0, uint8_t pwmVal = 0) :
+      Led(pinNo), _pwmVal(pwmVal) {}
 
     void init();
     void on();
@@ -38,14 +34,11 @@ class LedPwm : Led {
     uint8_t _pwmVal;
 };
 
-class LedBlink : Led {
+class LedBlink : public Led {
   public:
-    LedBlink():Led(){
-      _period_ms = 0;
-    };
-    LedBlink(uint8_t pinNo, uint32_t period_ms):Led(pinNo){
-      _period_ms = period_ms;
-    };
+
+    LedBlink(uint8_t pinNo = 0, uint32_t period_ms = 0) :
+      Led(pinNo), _period_ms(period_ms) {}
 
     void init();
     void on();
@@ -55,24 +48,19 @@ class LedBlink : Led {
     uint32_t getPeriod_ms();
 
   protected:
-    uint8_t _pin;
     uint8_t _onFlg = 0;
     uint32_t _period_ms;
     uint8_t _ledState = LOW;
     uint32_t _previousMillis = 0;
 };
 
-class LedFlicker : LedBlink {
+class LedFlicker : public LedBlink {
   public:
     //Constructors
-    LedFlicker():LedBlink(){
-      _pwmMin = 0;
-      _pwmMax = 0;
-    };
-    LedFlicker(uint8_t pinNo, uint8_t pwmMin, uint8_t pwmMax, uint32_t period_ms):LedBlink(pinNo, period_ms){
-      _pwmMin = pwmMin;
-      _pwmMax = pwmMax;
-    };
+
+    LedFlicker(uint8_t pinNo = 0, uint8_t pwmMin = 0, uint8_t pwmMax = 0,
+      uint32_t period_ms = 0) :
+      LedBlink(pinNo, period_ms), _pwmMin(pwmMin), _pwmMax(pwmMax) {}
 
     void init();
     void update();
